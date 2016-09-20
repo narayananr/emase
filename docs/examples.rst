@@ -164,7 +164,7 @@ Estimating allele-specific expression from a F1 sample
 ----------------------------------------------------------------------------------------
 To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. In this example, we will be using F1 hybrids from two inbred mouse strains B6 and CAST.
 
-Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
+Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
 
     ### reference genome in fasta format
     REF_GENOME=path_to_mouse_reference_genome(B6)
@@ -200,18 +200,32 @@ Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create pare
     g2gtools gtf2db -i ${STRAIN}/${STRAIN}.gtf -o ${STRAIN}/${STRAIN}.gtf.db
     g2gtools extract --transcripts -i ${STRAIN}/${STRAIN}.fa -db ${STRAIN}/${STRAIN}.gtf.db > ${STRAIN}/${STRAIN}.transcripts.fa
 
-Now we have, two parental genomes (B6 and CAST) and their annotation files in GTF format. We can use these files as an input to *prepare-emase* command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
+Now we have, two parental genomes (B6 and CAST) and their annotation files in GTF format. 
 
+Now, we can use **emase**. Let us first, use **prepare-emase** command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
+    
+    ### B6 genome fasta file
     GENOME1=path_to_genome_fasta_file_of_parent1
+    
+    ### CAST genome fasta file
     GENOME2=path_to_genome_fasta_file_of_parent2
+    
+    ### B6 annotation file in GTF format
     GTF1=path_to_annotation_file_in_GTF_format_for_parent1
+    
+    ### CAST annotation file in GTF format
     GTF1=path_to_annotation_file_in_GTF_format_for_parent2
-    ### identifier of parent1
+    
+    ### identifier of parent1 (allele1 in F1)
     SUFFIX1=B
-    ### identifier of parent2
+    
+    ### identifier of parent2 (allele2 in F1)
     SUFFIX2=C
+    
     OUT_DIR=path_to_output
+    
     ### create diploid transcriptome of the F1 using prepare-emase
+    ### -m option also outputs gene to transcript information
     prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m
 
 This will create two files in the ${OUT_DIR}::
