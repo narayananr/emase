@@ -166,20 +166,21 @@ To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we ne
 
 Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
 
-    #reference genome in fasta format
+    ### reference genome in fasta format
     REF_GENOME=path_to_mouse_reference_genome(B6)
 
-    #strain name (usually a column name in the Sanger vcf file), e.g., CAST_EiJ
+    ### strain name (usually a column name in the Sanger vcf file), e.g., CAST_EiJ
     STRAIN=CAST_EiJ
 
-    #vcf file for indels
-    INDELS_VCF=/hpcdata/narayan/Projects/EMASE_manual/g2gtools/mgp_v5_merged_indels_dbSNP142_CAST.vcf.gz
+    ### vcf file for indels
+    ### for e.g. :mgp_v5_merged_indels_dbSNP142_CAST.vcf.gz
+    INDELS_VCF=path_to_Sanger_vcf_file_for_indels
 
-    #vcf file for snps
-    SNPS_VCF=/hpcdata/narayan/Projects/EMASE_manual/g2gtools/mgp_v5_merged_snps_dbSNP142_CAST.vcf.gz
+    ### vcf file for snps (gzipped) for e.g. mgp_v5_merged_snps_dbSNP142_CAST.vcf.gz
+    SNPS_VCF=path_to_Sanger_vcf_file_for_snps
 
-    #gene annotation file in gtf format downloaded from ensembl
-    #(ftp://ftp.ensembl.org/pub/release-84/gtf/mus_musculus)
+    ### gene annotation file in gtf format downloaded from ensembl
+    ### (ftp://ftp.ensembl.org/pub/release-84/gtf/mus_musculus)
     GTF=path_to_ensembl_annotation_in_gtf_format_Mus_musculus.GRCm38.84.gtf 
 
 Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
