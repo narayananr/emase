@@ -162,7 +162,7 @@ It is now ready to run emase. We assume the read length is 100bp::
 
 Estimating allele-specific expression from a F1 sample
 ----------------------------------------------------------------------------------------
-To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. Please use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes iusing known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
+To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. Please use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
 
 Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes.
 
