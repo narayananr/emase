@@ -225,15 +225,22 @@ Now, we can use **emase**. Let us first, use **prepare-emase** command in emase,
     OUT_DIR=path_to_output
     
     ### create diploid transcriptome of the F1 using prepare-emase
-    ### -m option also outputs gene to transcript information
-    prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m
+    ### -m option also outputs all transcripts for every gene
+    prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m 
 
-This will create two files in the ${OUT_DIR}::
+This will create the following files in the ${OUT_DIR}::
   
-    emase.pooled.transcripts.fa
-    emase.pooled.transcripts.info
+    ${OUT_DIR}/emase.pooled.transcripts.fa
+    ${OUT_DIR}/emase.pooled.transcripts.info
+    ${OUT_DIR}/emase.gene2transcripts.tsv
+    ${OUT_DIR}/bowtie.transcriptome.1.ebwt
+    ${OUT_DIR}/bowtie.transcriptome.2.ebwt
+    ${OUT_DIR}/bowtie.transcriptome.3.ebwt
+    ${OUT_DIR}/bowtie.transcriptome.4.ebwt
+    ${OUT_DIR}/bowtie.transcriptome.rev.1.ebwt
+    ${OUT_DIR}/bowtie.transcriptome.rev.2.ebwt
 
-emase.pooled.transcripts.fa contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
+**emase.pooled.transcripts.fa** contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
 For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
 
     >ENSMUST00000000001_B
@@ -243,7 +250,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
     CACACATCCGGTTCTTCCGGGAGCTAGGGGAGCTGACGGAGAAGGCCACCGCCCAGCAGA
     AGACCCGTCCGCCGGTGTGTGGCGATTCCCGCGGTGTGTGTGAGTGAGCCCGGGCCCG
 
-emase.pooled.transcripts.info contains all the transcripts in two parental genomes of F1 hybrid and their lengths.
+**emase.pooled.transcripts.info** contains all the transcripts in two parental genomes of F1 hybrid and their lengths.
 For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
     
     ENSMUST00000000001_B    120
