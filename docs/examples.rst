@@ -165,6 +165,8 @@ Estimating allele-specific expression from a F1 sample
 
 To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. In this example, we will be using F1 hybrids from two inbred mouse strains B6 and CAST.
 
+# Build strain specific genome
+
 Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
 
     ### reference genome in fasta format
@@ -271,7 +273,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
              -o emase.alignment.profile.h5
 
 
-7. Run EMASE
+Run EMASE
 
 Now we are ready to run EMASE::
 
