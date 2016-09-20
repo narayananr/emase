@@ -263,7 +263,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
            | samtools view -bS - > ${BAM_FILE}
 
 
-# Converting bam file to alignment profile in *emase*'s h5 format
+# Converting bam file to alignment profile in *emase*'s h5 format::
 
     bam-to-emase -a ${BAM_FILE} \
              -i ${EMASE_DIR}/emase.pooled.transcripts.info \
@@ -273,7 +273,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
 
 7. Run EMASE
 
-Now we are ready to run EMASE:
+Now we are ready to run EMASE::
 
     run-emase -i emase.alignment.profile.h5 \
           -g emase.gene2transcripts.tsv \
