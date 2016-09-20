@@ -162,6 +162,7 @@ It is now ready to run emase. We assume the read length is 100bp::
 
 Estimating allele-specific expression from a F1 sample
 ----------------------------------------------------------------------------------------
+
 To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. In this example, we will be using F1 hybrids from two inbred mouse strains B6 and CAST.
 
 Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
@@ -233,12 +234,12 @@ This will create the following files in the ${OUT_DIR}::
     ${EMASE_DIR}/emase.pooled.transcripts.fa
     ${EMASE_DIR}/emase.pooled.transcripts.info
     ${EMASE_DIR}/emase.gene2transcripts.tsv
-    ${EMASE_DIR}/bowtie.transcriptome.1.ebwt
-    ${EMASE_DIR}/bowtie.transcriptome.2.ebwt
-    ${EMASE_DIR}/bowtie.transcriptome.3.ebwt
-    ${EMASE_DIR}/bowtie.transcriptome.4.ebwt
-    ${EMASE_DIR}/bowtie.transcriptome.rev.1.ebwt
-    ${EMASE_DIR}/bowtie.transcriptome.rev.2.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.1.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.2.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.3.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.4.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.rev.1.ebwt
+    ${EMASE_DIR}/bowtie.transcripts.rev.2.ebwt
 
 **emase.pooled.transcripts.fa** contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
 For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
@@ -262,5 +263,23 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
            | samtools view -bS - > ${BAM_FILE}
 
 
+# Converting bam file to alignment profile in *emase*'s h5 format
 
+    bam-to-emase -a ${BAM_FILE} \
+             -i ${EMASE_DIR}/emase.pooled.transcripts.info \
+             -s B,C \
+             -o emase.alignment.profile.h5
+
+
+7. Run EMASE
+
+Now we are ready to run EMASE:
+
+    run-emase -i emase.alignment.profile.h5 \
+          -g emase.gene2transcripts.tsv \
+          -L ${EMASE_DIR}/emase.pooled.transcripts.info \
+          -M ${MODEL} \
+          -o ${SAMPLE_DIR}/emase \
+          -r ${READ_LENGTH} \
+          -c
 
