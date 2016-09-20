@@ -162,11 +162,13 @@ It is now ready to run emase. We assume the read length is 100bp::
 
 Estimating allele-specific expression from a F1 sample
 ----------------------------------------------------------------------------------------
-To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. Please use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
+To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. 
+
+Let us use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
 
 Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
 
-    GENOME1=path/to/genome/fasta/file/of/parent1
+    GENOME1=path_to_genome_fasta_file_of_parent1
     GENOME2=path_to_genome_fasta_file_of_parent2
     GTF1=path_to_annotation_file_in_GTF_format_for_parent1
     GTF1=path_to_annotation_file_in_GTF_format_for_parent2
@@ -194,7 +196,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
     AGACCCGTCCGCCGGTGTGTGGCGATTCCCGCGGTGTGTGTGAGTGAGCCCGGGCCCG
 
 emase.pooled.transcripts.info contains all the transcripts in two parental genomes of F1 hybrid and their lengths.
-For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as
+For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
     
     ENSMUST00000000001_B    120
     ENSMUST00000000001_C    118 
