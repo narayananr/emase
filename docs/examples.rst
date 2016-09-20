@@ -160,15 +160,45 @@ It is now ready to run emase. We assume the read length is 100bp::
     run-emase -i bowtie.transcriptome.h5 -L S1xS2/emase.pooled.transcriptome.info -M 4 -c
 
 
-Deconvolving human and mouse gene expression from Patient-Derived Xenograft (PDX) models
-----------------------------------------------------------------------------------------
-
-Coming soon!
-
 Estimating allele-specific expression from a F1 sample
-------------------------------------------------------
+----------------------------------------------------------------------------------------
+To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. Please use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes iusing known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
 
-Coming soon!
+Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes.
+
+    GENOME1=path_to_genome_fasta_file_of_parent1
+    GENOME2=path_to_genome_fasta_file_of_parent2
+    GTF1=path_to_annotation_file_in_GTF_format_for_parent1
+    GTF1=path_to_annotation_file_in_GTF_format_for_parent2
+    ### identifier of parent1
+    SUFFIX1=B
+    ### identifier of parent2
+    SUFFIX2=C
+    OUT_DIR=path_to_output
+    ### create diploid transcriptome of the F1 using prepare-emase
+    prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m
+
+This will create two files in the ${OUT_DIR}
+  
+    emase.pooled.transcripts.fa
+    emase.pooled.transcripts.info
+
+emase.pooled.transcripts.fa contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
+For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as
+
+    >ENSMUST00000000001_B
+    CACACATCCGGTTCTTCCGGGAGCTAGGGGAGCTGACGGAGAAGGCCACCGCCCAGCAGA
+    AGACCCGTCTCCGCCGGTGTGTGGCGATTCCCGCGGTGTGTGTGAGTGAGCCCGGGCCCG
+    >ENSMUST00000000001_C
+    CACACATCCGGTTCTTCCGGGAGCTAGGGGAGCTGACGGAGAAGGCCACCGCCCAGCAGA
+    AGACCCGTCCGCCGGTGTGTGGCGATTCCCGCGGTGTGTGTGAGTGAGCCCGGGCCCG
+
+emase.pooled.transcripts.info contains all the transcripts in two parental genomes of F1 hybrid and their lengths.
+For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as
+    
+    ENSMUST00000000001_B    120
+    ENSMUST00000000001_C    118 
+
 
 
 
