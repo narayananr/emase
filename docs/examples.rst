@@ -222,23 +222,23 @@ Now, we can use **emase**. Let us first, use **prepare-emase** command in emase,
     ### identifier of parent2 (allele2 in F1)
     SUFFIX2=C
     
-    OUT_DIR=path_to_output
+    EMASE_DIR=path_to_output
     
     ### create diploid transcriptome of the F1 using prepare-emase
     ### -m option also outputs all transcripts for every gene
-    prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m 
+    prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${EMASE_DIR} -m 
 
 This will create the following files in the ${OUT_DIR}::
   
-    ${OUT_DIR}/emase.pooled.transcripts.fa
-    ${OUT_DIR}/emase.pooled.transcripts.info
-    ${OUT_DIR}/emase.gene2transcripts.tsv
-    ${OUT_DIR}/bowtie.transcriptome.1.ebwt
-    ${OUT_DIR}/bowtie.transcriptome.2.ebwt
-    ${OUT_DIR}/bowtie.transcriptome.3.ebwt
-    ${OUT_DIR}/bowtie.transcriptome.4.ebwt
-    ${OUT_DIR}/bowtie.transcriptome.rev.1.ebwt
-    ${OUT_DIR}/bowtie.transcriptome.rev.2.ebwt
+    ${EMASE_DIR}/emase.pooled.transcripts.fa
+    ${EMASE_DIR}/emase.pooled.transcripts.info
+    ${EMASE_DIR}/emase.gene2transcripts.tsv
+    ${EMASE_DIR}/bowtie.transcriptome.1.ebwt
+    ${EMASE_DIR}/bowtie.transcriptome.2.ebwt
+    ${EMASE_DIR}/bowtie.transcriptome.3.ebwt
+    ${EMASE_DIR}/bowtie.transcriptome.4.ebwt
+    ${EMASE_DIR}/bowtie.transcriptome.rev.1.ebwt
+    ${EMASE_DIR}/bowtie.transcriptome.rev.2.ebwt
 
 **emase.pooled.transcripts.fa** contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
 For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
@@ -255,6 +255,11 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
     
     ENSMUST00000000001_B    120
     ENSMUST00000000001_C    118 
+
+# Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
+
+    bowtie -q -a --best --strata --sam -v 3 ${EMASE_DIR}/bowtie.transcriptome ${FASTQ} \
+           | samtools view -bS - > ${BAM_FILE}
 
 
 
