@@ -166,7 +166,7 @@ To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we ne
 
 Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes.
 
-    GENOME1=path_to_genome_fasta_file_of_parent1
+    GENOME1=path/to/genome/fasta/file/of/parent1
     GENOME2=path_to_genome_fasta_file_of_parent2
     GTF1=path_to_annotation_file_in_GTF_format_for_parent1
     GTF1=path_to_annotation_file_in_GTF_format_for_parent2
