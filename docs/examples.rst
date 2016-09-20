@@ -164,7 +164,7 @@ Estimating allele-specific expression from a F1 sample
 ----------------------------------------------------------------------------------------
 To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. Please use g2gtools (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools.
 
-Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes.
+Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
 
     GENOME1=path/to/genome/fasta/file/of/parent1
     GENOME2=path_to_genome_fasta_file_of_parent2
@@ -178,13 +178,13 @@ Once we have the parental genomes and GTF files, we can uses prepare-emase comma
     ### create diploid transcriptome of the F1 using prepare-emase
     prepare-emase -G ${GENOME1},${GENOME2} -g ${GTF1},${GTF2} -s ${SUFFIX1},${SUFFIX2} -o ${OUT_DIR} -m
 
-This will create two files in the ${OUT_DIR}
+This will create two files in the ${OUT_DIR}::
   
     emase.pooled.transcripts.fa
     emase.pooled.transcripts.info
 
 emase.pooled.transcripts.fa contains all the transcripts in two parental genomes of F1 hybrid and each allele has distinct identifier.
-For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as
+For example, the two alleles of the transcript "ENSMUST00000000001" will be represented as::
 
     >ENSMUST00000000001_B
     CACACATCCGGTTCTTCCGGGAGCTAGGGGAGCTGACGGAGAAGGCCACCGCCCAGCAGA
