@@ -183,6 +183,16 @@ Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create pare
     ### (ftp://ftp.ensembl.org/pub/release-84/gtf/mus_musculus)
     GTF=path_to_ensembl_annotation_in_gtf_format_Mus_musculus.GRCm38.84.gtf 
 
+    ### Create a chain file for mapping bases between two genomes. In this case, between reference and some other strain, like CAST_EiJ:
+    g2gtools vcf2chain -f ${REF} -i ${VCF_INDELS} -s ${STRAIN} -o ${STRAIN}/REF-to-${STRAIN}.chain
+    
+    ### patch SNPs on to reference genome
+    g2gtools patch -i ${REF} -s ${STRAIN} -v ${VCF_SNPS} -o ${STRAIN}/${STRAIN}.patched.fa
+    g2gtools transform -i ${STRAIN}/${STRAIN}.patched.fa -c ${STRAIN}/REF-to-${STRAIN}.chain -o ${STRAIN}/${STRAIN}.fa
+    g2gtools convert -c ${STRAIN}/REF-to-${STRAIN}.chain -i ${GTF} -f gtf -o ${STRAIN}/${STRAIN}.gtf
+    g2gtools gtf2db -i ${STRAIN}/${STRAIN}.gtf -o ${STRAIN}/${STRAIN}.gtf.db
+    g2gtools extract --transcripts -i ${STRAIN}/${STRAIN}.fa -db ${STRAIN}/${STRAIN}.gtf.db > ${STRAIN}/${STRAIN}.transcripts.fa
+
 Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
 
     GENOME1=path_to_genome_fasta_file_of_parent1
