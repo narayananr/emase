@@ -169,9 +169,6 @@ Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create pare
     ### reference genome in fasta format
     REF_GENOME=path_to_mouse_reference_genome(B6)
 
-    ### strain name (usually a column name in the Sanger vcf file), e.g., CAST_EiJ
-    STRAIN=CAST_EiJ
-
     ### vcf file for indels
     ### for e.g. :mgp_v5_merged_indels_dbSNP142_CAST.vcf.gz
     INDELS_VCF=path_to_Sanger_vcf_file_for_indels
@@ -182,18 +179,28 @@ Let us use *g2gtools* (https://github.com/churchill-lab/g2gtools) to create pare
     ### gene annotation file in gtf format downloaded from ensembl
     ### (ftp://ftp.ensembl.org/pub/release-84/gtf/mus_musculus)
     GTF=path_to_ensembl_annotation_in_gtf_format_Mus_musculus.GRCm38.84.gtf 
+    
+    ### iname of the strain that we want to use SNPs and Indels
+    ### (it should match a column name in the Sanger vcf file), e.g., CAST_EiJ
+    STRAIN=CAST_EiJ
 
     ### Create a chain file for mapping bases between two genomes. In this case, between reference and some other strain, like CAST_EiJ:
     g2gtools vcf2chain -f ${REF} -i ${VCF_INDELS} -s ${STRAIN} -o ${STRAIN}/REF-to-${STRAIN}.chain
     
-    ### patch SNPs on to reference genome
+    ### patch SNPs 
     g2gtools patch -i ${REF} -s ${STRAIN} -v ${VCF_SNPS} -o ${STRAIN}/${STRAIN}.patched.fa
+    
+    ### use the chain file and patched fa file to create the new strain's genome fasta file
     g2gtools transform -i ${STRAIN}/${STRAIN}.patched.fa -c ${STRAIN}/REF-to-${STRAIN}.chain -o ${STRAIN}/${STRAIN}.fa
+
+    ### create new strain's annotation file
     g2gtools convert -c ${STRAIN}/REF-to-${STRAIN}.chain -i ${GTF} -f gtf -o ${STRAIN}/${STRAIN}.gtf
+   
+    ### we can also extract the transcripts from the new strain's genome (This step is not needed for F1 ase analysis)
     g2gtools gtf2db -i ${STRAIN}/${STRAIN}.gtf -o ${STRAIN}/${STRAIN}.gtf.db
     g2gtools extract --transcripts -i ${STRAIN}/${STRAIN}.fa -db ${STRAIN}/${STRAIN}.gtf.db > ${STRAIN}/${STRAIN}.transcripts.fa
 
-Once we have the parental genomes and GTF files, we can uses prepare-emase command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
+Now we have, two parental genomes (B6 and CAST) and their annotation files in GTF format. We can use these files as an input to *prepare-emase* command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
 
     GENOME1=path_to_genome_fasta_file_of_parent1
     GENOME2=path_to_genome_fasta_file_of_parent2
