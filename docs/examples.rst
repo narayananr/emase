@@ -30,10 +30,10 @@ Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create pa
     STRAIN=CAST_EiJ
 
     ### Create a chain file for mapping bases between two genomes. In this case, between reference and some other strain, like CAST_EiJ:
-    g2gtools vcf2chain -f ${REF} -i ${VCF_INDELS} -s ${STRAIN} -o ${STRAIN}/REF-to-${STRAIN}.chain
+    g2gtools vcf2chain -f ${REF} -i ${INDELS_VCF} -s ${STRAIN} -o ${STRAIN}/REF-to-${STRAIN}.chain
     
     ### patch SNPs 
-    g2gtools patch -i ${REF} -s ${STRAIN} -v ${VCF_SNPS} -o ${STRAIN}/${STRAIN}.patched.fa
+    g2gtools patch -i ${REF} -s ${STRAIN} -v ${SNPS_VCF} -o ${STRAIN}/${STRAIN}.patched.fa
     
     ### use the chain file and patched fa file to create the new strain's genome fasta file
     g2gtools transform -i ${STRAIN}/${STRAIN}.patched.fa -c ${STRAIN}/REF-to-${STRAIN}.chain -o ${STRAIN}/${STRAIN}.fa
@@ -41,7 +41,7 @@ Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create pa
     ### create new strain's annotation file
     g2gtools convert -c ${STRAIN}/REF-to-${STRAIN}.chain -i ${GTF} -f gtf -o ${STRAIN}/${STRAIN}.gtf
    
-    ### we can also extract the transcripts from the new strain's genome (This step is not needed for F1 ase analysis)
+    ### We can also extract the transcripts from the new strain's genome (This step is not needed for F1 ase analysis)
     g2gtools gtf2db -i ${STRAIN}/${STRAIN}.gtf -o ${STRAIN}/${STRAIN}.gtf.db
     g2gtools extract --transcripts -i ${STRAIN}/${STRAIN}.fa -db ${STRAIN}/${STRAIN}.gtf.db > ${STRAIN}/${STRAIN}.transcripts.fa
 
@@ -101,6 +101,8 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
     ENSMUST00000000001_B    120
     ENSMUST00000000001_C    118 
 
+### Quantfying ASE with Single End reads 
+
 # Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
 
     bowtie -q -a --best --strata --sam -v 3 ${EMASE_DIR}/bowtie.transcriptome ${FASTQ} \
@@ -115,7 +117,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
              -o emase.alignment.profile.h5
 
 
-Run EMASE
+# Run EMASE
 
 Now we are ready to run EMASE::
 
