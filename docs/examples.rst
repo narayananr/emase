@@ -106,21 +106,20 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
 Quantfying ASE with Single End reads
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
+1. Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
 
     bowtie -q -a --best --strata --sam -v 3 ${EMASE_DIR}/bowtie.transcriptome ${FASTQ} \
            | samtools view -bS - > ${BAM_FILE}
 
 
-# Converting bam file to alignment profile in *emase*'s h5 format::
+2. Converting bam file to alignment profile in *emase*'s h5 format::
 
     bam-to-emase -a ${BAM_FILE} \
              -i ${EMASE_DIR}/emase.pooled.transcripts.info \
              -s B,C \
              -o emase.alignment.profile.h5
 
-
-# Run EMASE
+3. Run EMASE
 
 Now we are ready to run EMASE::
 
