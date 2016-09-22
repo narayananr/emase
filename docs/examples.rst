@@ -121,7 +121,7 @@ Quantfying ASE with Single End reads
 
 3. Run EMASE
 
-Now we are ready to run EMASE::
+   Now we are ready to run EMASE::
 
     run-emase -i emase.alignment.profile.h5 \
           -g emase.gene2transcripts.tsv \
