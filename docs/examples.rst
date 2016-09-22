@@ -7,7 +7,8 @@ Estimating allele-specific expression from a F1 sample
 
 To estimate allele-specific expression from RNA-seq data from a F1 hybrid, we need to have the transcriptomes of the two parental strains of F1. In this example, we will be using F1 hybrids from two inbred mouse strains B6 and CAST.
 
-# Build strain specific genome
+Building strain specific genome
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create parental genomes using known SNPs and Indels and create strain-specific annotation file in GTF format using g2gtools. Since B6 strain is almost the same as the strain of mouse reference genome, we will be creating CAST genome using the Sanger SNP and Indel data (ftp://ftp-mouse.sanger.ac.uk/REL-1505-SNPs_Indels/).::
 
@@ -45,9 +46,10 @@ Let us use **g2gtools** (https://github.com/churchill-lab/g2gtools) to create pa
     g2gtools gtf2db -i ${STRAIN}/${STRAIN}.gtf -o ${STRAIN}/${STRAIN}.gtf.db
     g2gtools extract --transcripts -i ${STRAIN}/${STRAIN}.fa -db ${STRAIN}/${STRAIN}.gtf.db > ${STRAIN}/${STRAIN}.transcripts.fa
 
-Now we have, two parental genomes (B6 and CAST) and their annotation files in GTF format. 
+Building Diploid Transcriptome
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now, we can use **emase**. Let us first, use **prepare-emase** command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
+Now we have, two parental genomes (B6 and CAST) and their annotation files in GTF format. We can use **emase**. Let us first, use **prepare-emase** command in emase, to create diploid (F1) transcritome using the strain-specific transcriptomes::
     
     ### B6 genome fasta file
     GENOME1=path_to_genome_fasta_file_of_parent1
@@ -101,9 +103,10 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
     ENSMUST00000000001_B    120
     ENSMUST00000000001_C    118 
 
-### Quantfying ASE with Single End reads 
+Quantfying ASE with Single End reads
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-# Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
+Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
 
     bowtie -q -a --best --strata --sam -v 3 ${EMASE_DIR}/bowtie.transcriptome ${FASTQ} \
            | samtools view -bS - > ${BAM_FILE}
