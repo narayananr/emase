@@ -1,5 +1,5 @@
 ==============
-Real Use Cases
+EMASE Manual
 ==============
 
 Estimating allele-specific expression from a F1 sample
@@ -106,7 +106,7 @@ For example, the two alleles of the transcript "ENSMUST00000000001" will be repr
 Quantfying ASE with Single End reads
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Aligning RNA-seq reads to the diploid transcriptome using bowtie1::
+1. Aligning SE RNA-seq reads to the diploid transcriptome using bowtie1::
 
     bowtie -q -a --best --strata --sam -v 3 ${EMASE_DIR}/bowtie.transcriptome ${FASTQ} \
            | samtools view -bS - > ${BAM_FILE}
@@ -130,4 +130,25 @@ Quantfying ASE with Single End reads
           -o ${SAMPLE_DIR}/emase \
           -r ${READ_LENGTH} \
           -c
+
+Quantfying ASE with Paired-End reads
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Aligning PE RNA-seq reads to the diploid transcriptome using bowtie1::
+    
+    bowtie -q --best -a --strata --sam -m 100 -v 3 -p 1 $P2REF ${MYSEQ1} | samtools view -bS - > ${OPATH}/$ONAME\_R1.bam
+    bowtie -q --best -a --strata --sam -m 100 -v 3 -p 1 $P2REF ${MYSEQ2} | samtools view -bS - > ${OPATH}/$ONAME\_R2.bam
+
+2. Converting bam file to alignment profile in *emase*'s h5 format::
+    
+    bam-to-emase -a ${OPATH}/$ONAME\_R1.bam -s B,C -i ${TID} -o ${OPATH}/${ONAME}_R1.h5
+    bam-to-emase -a ${OPATH}/$ONAME\_R2.bam -s B,C -i ${TID} -o ${OPATH}/${ONAME}_R2.h5
+    get-common-alignments -i ${OPATH}/${ONAME}_R1.h5,${OPATH}/${ONAME}_R2.h5 -o ${OPATH}/${ONAME}_pe.h5
+
+3. Run EMASE
+   
+   Now we are ready to run EMASE::
+   
+     run-emase -i ${OPATH}/${ONAME}_pe.h5 -g ${g2tID} -L ${lenFile} -M 2 -r 100 -o ${OPATH}/${ONAME}_pe
+
 
